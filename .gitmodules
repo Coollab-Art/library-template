@@ -1,0 +1,6 @@
+[submodule "tests/doctest"]
+	path = tests/doctest
+	url = https://github.com/doctest/doctest
+[submodule "tooling"]
+	path = tooling
+	url = https://github.com/CoolLibs/tooling
