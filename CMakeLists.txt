@@ -5,7 +5,6 @@ cmake_minimum_required(VERSION 3.8)
 add_library(mylib INTERFACE)
 add_library(mylib::mylib ALIAS mylib)
 target_compile_features(mylib INTERFACE cxx_std_20)
-# ---Add source files---
 target_include_directories(mylib INTERFACE include)
 
 ### ELSEIF( library with .cpp files )
@@ -20,8 +19,6 @@ target_sources(mylib PRIVATE
     src/other_file.cpp
 )
 
-### ENDIF
-
 if (MYLIB_ENABLE_WARNINGS_AS_ERRORS)
     message("-- [mylib] Enabling warnings as errors for mylib")
     if(MSVC)
@@ -32,3 +29,5 @@ if (MYLIB_ENABLE_WARNINGS_AS_ERRORS)
 else()
     message("-- [mylib] Not using warnings as errors for mylib")
 endif()
+
+### ENDIF
