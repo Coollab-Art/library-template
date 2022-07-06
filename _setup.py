@@ -16,5 +16,11 @@ def setup(
     setup_cmakelists(lib_name, cpp_version, is_header_only)
     from _tests import setup_tests
     setup_tests(lib_name)
+    if not is_header_only:
+        from _src import setup_src
+        setup_src(lib_name)
+    else:
+        from tooling.internal_utils import remove_directory
+        remove_directory('src')
 
     clear_setup_scripts()
