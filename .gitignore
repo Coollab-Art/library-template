@@ -1,3 +1,6 @@
 ﻿tests/build
 build
+.vs
 .vscode
+
+.DS_Store

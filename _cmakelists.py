@@ -1,21 +1,20 @@
+def cmake_minimum_required():
+    return "cmake_minimum_required(VERSION 3.8)"
+
 def setup_cmakelists(lib_name, cpp_version, is_header_only):
     from _utils import make_file
     from os.path import join
 
-    make_file('CMakeLists.txt', "cmake_minimum_required(VERSION 3.8)\n" +
+    make_file('CMakeLists.txt', cmake_minimum_required() + "\n" +
               cmakelists_body(lib_name, cpp_version, is_header_only))
 
-    make_file(join('tests', 'CMakeLists.txt'), f"""cmake_minimum_required(VERSION 3.8)
+    make_file(join('tests', 'CMakeLists.txt'), f"""{cmake_minimum_required()}
 project({lib_name}-tests)
 
 add_executable(${{PROJECT_NAME}} tests.cpp)
-target_compile_features(${{PROJECT_NAME}} PRIVATE cxx_std_20)
+target_compile_features(${{PROJECT_NAME}} PRIVATE {cpp_version})
 
-if (MSVC)
-    target_compile_options(${{PROJECT_NAME}} PRIVATE /WX /W4)
-else()
-    target_compile_options(${{PROJECT_NAME}} PRIVATE -Werror -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
-endif()
+{enable_warnings("${PROJECT_NAME}", "")}
 
 set({lib_name.upper()}_ENABLE_WARNINGS_AS_ERRORS ON)
 add_subdirectory(.. ${{CMAKE_CURRENT_SOURCE_DIR}}/build/{lib_name})
@@ -26,13 +25,12 @@ target_link_libraries(${{PROJECT_NAME}} PRIVATE doctest::doctest)
 """)
 
 
-def enable_warnings(lib_name):
-    return f"""if(MSVC)
-    target_compile_options({lib_name} PRIVATE /WX /W4)
-else()
-    target_compile_options({lib_name} PRIVATE -Werror -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
-endif()
-"""
+def enable_warnings(lib_name, before_each_line):
+    return f"""{before_each_line}if(MSVC)
+{before_each_line}    target_compile_options({lib_name} PRIVATE /WX /W4)
+{before_each_line}else()
+{before_each_line}    target_compile_options({lib_name} PRIVATE -Werror -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
+{before_each_line}endif()"""
 
 
 def cmakelists_body(lib_name, cpp_version, is_header_only):
@@ -57,7 +55,7 @@ target_sources({lib_name} PRIVATE
 
 if ({lib_name.upper()}_ENABLE_WARNINGS_AS_ERRORS)
     message("-- [{lib_name}] Enabling warnings as errors for {lib_name}")
-    {enable_warnings(lib_name)}
+{enable_warnings(lib_name, "    ")}
 else()
     message("-- [{lib_name}] Not using warnings as errors for {lib_name}")
 endif()

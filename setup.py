@@ -1,7 +1,7 @@
 from _setup import setup
 
 setup(
-    lib_name="testlib",
-    cpp_version="cxx_std_17",
-    is_header_only=False
+    lib_name="mylib",
+    cpp_version="cxx_std_20",
+    is_header_only=False,
 )
