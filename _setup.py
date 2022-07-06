@@ -10,9 +10,11 @@ def setup(
     cpp_version="cxx_std_20",
     is_header_only=False,
 ):
-    from readme import setup_readme
+    from _readme import setup_readme
     setup_readme(lib_name)
-    from cmakelists import setup_cmakelists
+    from _cmakelists import setup_cmakelists
     setup_cmakelists(lib_name, cpp_version, is_header_only)
+    from _tests import setup_tests
+    setup_tests(lib_name)
 
     clear_setup_scripts()
