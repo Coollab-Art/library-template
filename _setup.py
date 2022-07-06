@@ -6,7 +6,7 @@ def clear_setup_scripts():
 
 
 def setup(
-    lib_name="",
+    lib_name="mylib",
     cpp_version="cxx_std_20",
     is_header_only=False,
 ):
@@ -22,5 +22,7 @@ def setup(
     else:
         from tooling.internal_utils import remove_directory
         remove_directory('src')
+    from _include import setup_include
+    setup_include(lib_name)
 
     clear_setup_scripts()
