@@ -1,8 +1,15 @@
 def clear_setup_scripts():
-    print(f"I will remove {__file__}")
-    # remove(__file__)
-    # TODO remove setup folder
-    # Remove __pycache__
+    from _utils import path_to, remove
+    from tooling.internal_utils import remove_directory
+    remove(path_to('_cmakelists.py'))
+    remove(path_to('_include.py'))
+    remove(path_to('_readme.py'))
+    remove(path_to('_setup.py'))
+    remove(path_to('_src.py'))
+    remove(path_to('_tests.py'))
+    remove(path_to('_utils.py'))
+    remove(path_to('setup.py'))
+    remove_directory(path_to('__pycache__'))
 
 
 def setup(
