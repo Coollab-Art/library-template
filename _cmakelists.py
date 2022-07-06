@@ -1,6 +1,7 @@
 def cmake_minimum_required():
     return "cmake_minimum_required(VERSION 3.8)"
 
+
 def setup_cmakelists(lib_name, cpp_version, is_header_only):
     from _utils import make_file
     from os.path import join
