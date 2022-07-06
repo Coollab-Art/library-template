@@ -48,12 +48,14 @@ target_include_directories({lib_name} INTERFACE include)
 add_library({lib_name})
 add_library({lib_name}::{lib_name} ALIAS {lib_name})
 target_compile_features({lib_name} PUBLIC {cpp_version})
+
 # ---Add source files---
 target_include_directories({lib_name} PUBLIC include)
 target_sources({lib_name} PRIVATE
     src/{lib_name}.cpp
 )
 
+# ---Setup warnings---
 if ({lib_name.upper()}_ENABLE_WARNINGS_AS_ERRORS)
     message("-- [{lib_name}] Enabling warnings as errors for {lib_name}")
 {enable_warnings(lib_name, "    ")}
