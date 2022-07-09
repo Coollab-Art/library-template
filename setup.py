@@ -1,4 +1,4 @@
-from _setup import setup
+from _main import setup
 
 setup(
     lib_name="mylib",

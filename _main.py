@@ -3,8 +3,8 @@ def clear_setup_scripts():
     from tooling.internal_utils import remove_directory
     remove(path_to('_cmakelists.py'))
     remove(path_to('_include.py'))
+    remove(path_to('_main.py'))
     remove(path_to('_readme.py'))
-    remove(path_to('_setup.py'))
     remove(path_to('_src.py'))
     remove(path_to('_tests.py'))
     remove(path_to('_utils.py'))
