@@ -12,6 +12,12 @@ def clear_setup_scripts():
     remove_directory(path_to('__pycache__'))
 
 
+def commit_in_git():
+    import os
+    os.system('git add .')
+    os.system('git commit -m "🎉 Initial commit" --amend')
+
+
 def setup(
     lib_name="mylib",
     cpp_version="cxx_std_20",
@@ -31,5 +37,6 @@ def setup(
         remove_directory('src')
     from _include import setup_include
     setup_include(lib_name)
+    commit_in_git()
 
     clear_setup_scripts()
