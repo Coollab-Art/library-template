@@ -1,15 +1,15 @@
-def cmake_minimum_required():
-    return "cmake_minimum_required(VERSION 3.8)"
+def cmake_minimum_required(version):
+    return f"cmake_minimum_required(VERSION ${version})"
 
 
 def setup_cmakelists(lib_name, cpp_version, is_header_only):
     from _utils import make_file
     from os.path import join
 
-    make_file('CMakeLists.txt', cmake_minimum_required() + "\n" +
+    make_file('CMakeLists.txt', cmake_minimum_required("3.8") + "\n" +
               cmakelists_body(lib_name, cpp_version, is_header_only))
 
-    make_file(join('tests', 'CMakeLists.txt'), f"""{cmake_minimum_required()}
+    make_file(join('tests', 'CMakeLists.txt'), f"""{cmake_minimum_required("3.11")}
 project({lib_name}-tests)
 
 add_executable(${{PROJECT_NAME}} tests.cpp)
@@ -21,7 +21,14 @@ set({lib_name.upper()}_ENABLE_WARNINGS_AS_ERRORS ON)
 add_subdirectory(.. ${{CMAKE_CURRENT_SOURCE_DIR}}/build/{lib_name})
 target_link_libraries(${{PROJECT_NAME}} PRIVATE {lib_name}::{lib_name})
 
-add_subdirectory(doctest)
+# ---Add doctest---
+include(FetchContent)
+FetchContent_Declare(
+    doctest
+    GIT_REPOSITORY https://github.com/doctest/doctest
+    GIT_TAG b7c21ec5ceeadb4951b00396fc1e4642dd347e5f
+)
+FetchContent_MakeAvailable(doctest)
 target_link_libraries(${{PROJECT_NAME}} PRIVATE doctest::doctest)
 """)
 
