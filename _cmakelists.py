@@ -32,7 +32,18 @@ FetchContent_Declare(
     GIT_TAG b7c21ec5ceeadb4951b00396fc1e4642dd347e5f
 )
 FetchContent_MakeAvailable(doctest)
-target_link_libraries(${{PROJECT_NAME}} PRIVATE doctest::doctest)
+target_link_libraries(${{PROJECT_NAME}} PRIVATE doctest::doctest){f'''
+
+# ---Add quick_imgui---
+include(FetchContent)
+FetchContent_Declare(
+    quick_imgui
+    GIT_REPOSITORY https://github.com/CoolLibs/quick_imgui
+    GIT_TAG b01b1e8753f01eefb1abcfac068db6e1517cda65
+)
+FetchContent_MakeAvailable(quick_imgui)
+target_include_directories({lib_name} PRIVATE ${{quick_imgui_SOURCE_DIR}}/lib) # Give our library access to Dear ImGui
+target_link_libraries(${{PROJECT_NAME}} PRIVATE quick_imgui::quick_imgui)''' if tests_need_imgui else ""}
 
 # ---Ignore .vscode/settings.json in Git---
 find_package(Git QUIET)
@@ -50,18 +61,7 @@ if(GIT_FOUND)
     endif()
 else()
     message("Git executable not found.")
-endif(){f'''
-
-# ---Add quick_imgui---
-include(FetchContent)
-FetchContent_Declare(
-    quick_imgui
-    GIT_REPOSITORY https://github.com/CoolLibs/quick_imgui
-    GIT_TAG b01b1e8753f01eefb1abcfac068db6e1517cda65
-)
-FetchContent_MakeAvailable(quick_imgui)
-target_include_directories({lib_name} PRIVATE ${{quick_imgui_SOURCE_DIR}}/lib) # Give our library access to Dear ImGui
-target_link_libraries(${{PROJECT_NAME}} PRIVATE quick_imgui::quick_imgui)''' if tests_need_imgui else ""}
+endif()
 """)
 
 
