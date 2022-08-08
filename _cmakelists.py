@@ -2,7 +2,7 @@ def cmake_minimum_required(version):
     return f"cmake_minimum_required(VERSION {version})"
 
 
-def setup_cmakelists(lib_name, cpp_version, is_header_only):
+def setup_cmakelists(lib_name, cpp_version, is_header_only, tests_need_imgui: bool):
     from _utils import make_file
     from os.path import join
 
@@ -12,11 +12,14 @@ def setup_cmakelists(lib_name, cpp_version, is_header_only):
     make_file(join('tests', 'CMakeLists.txt'), f"""{cmake_minimum_required("3.11")}
 project({lib_name}-tests)
 
+# ---Create executable---
 add_executable(${{PROJECT_NAME}} tests.cpp)
 target_compile_features(${{PROJECT_NAME}} PRIVATE {cpp_version})
 
+# ---Setup warnings---
 {enable_warnings("${PROJECT_NAME}", "")}
 
+# ---Include our library---
 set({lib_name.upper()}_ENABLE_WARNINGS_AS_ERRORS ON)
 add_subdirectory(.. ${{CMAKE_CURRENT_SOURCE_DIR}}/build/{lib_name})
 target_link_libraries(${{PROJECT_NAME}} PRIVATE {lib_name}::{lib_name})
@@ -47,7 +50,18 @@ if(GIT_FOUND)
     endif()
 else()
     message("Git executable not found.")
-endif()
+endif(){f'''
+
+# ---Add quick_imgui---
+include(FetchContent)
+FetchContent_Declare(
+    quick_imgui
+    GIT_REPOSITORY https://github.com/CoolLibs/quick_imgui
+    GIT_TAG 4972d0acb43c6a37122f6575d2d29cf1e897111f
+)
+FetchContent_MakeAvailable(quick_imgui)
+target_include_directories({lib_name} PRIVATE ${{quick_imgui_SOURCE_DIR}}/lib) # Give our library access to Dear ImGui
+target_link_libraries(${{PROJECT_NAME}} PRIVATE quick_imgui::quick_imgui)''' if tests_need_imgui else ""}
 """)
 
 

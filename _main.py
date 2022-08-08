@@ -1,3 +1,6 @@
+from enum import Enum, auto
+
+
 def clear_setup_scripts():
     from _utils import path_to, remove
     from tooling.internal_utils import remove_directory
@@ -17,11 +20,12 @@ def commit_in_git():
     os.system('git add .')
     os.system('git commit -m "🎉 Initial commit" --amend')
 
-from enum import Enum, auto
+
 class Usage(Enum):
     NEVER = auto()
     TESTS_ONLY = auto()
     ALWAYS = auto()
+
 
 def setup(
     lib_name="mylib",
@@ -30,9 +34,14 @@ def setup(
     uses_dear_imgui=Usage.NEVER,
 ):
     from _readme import setup_readme
-    setup_readme(lib_name, uses_dear_imgui==Usage.ALWAYS)
+    setup_readme(lib_name, uses_dear_imgui == Usage.ALWAYS)
     from _cmakelists import setup_cmakelists
-    setup_cmakelists(lib_name, cpp_version, is_header_only)
+    setup_cmakelists(
+        lib_name,
+        cpp_version,
+        is_header_only,
+        uses_dear_imgui in [Usage.TESTS_ONLY, Usage.ALWAYS]
+    )
     from _tests import setup_tests
     setup_tests(lib_name)
     if not is_header_only:
