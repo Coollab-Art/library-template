@@ -10,12 +10,15 @@ def setup_tests(lib_name, needs_imgui: bool):
 
 int main()
 {{
-    doctest::Context{{}}.run();               // Run all unit tests
-    quick_imgui::loop("{lib_name} tests", []() {{ // Open a window and run all the ImGui-related code
-        ImGui::Begin("{lib_name} tests");
-        ImGui::End();
-        ImGui::ShowDemoWindow();
-    }});
+    int exit_code = doctest::Context{{}}.run(); // Run all unit tests
+    if (exit_code == 0)                       // Only open the window if the tests passed; this makes it easier to notice when some tests fail
+    {{
+        quick_imgui::loop("{lib_name} tests", []() {{ // Open a window and run all the ImGui-related code
+            ImGui::Begin("{lib_name} tests");
+            ImGui::End();
+            ImGui::ShowDemoWindow();
+        }});
+    }}
 }}
 ''' if needs_imgui else ""}
 // Check out doctest's documentation: https://github.com/doctest/doctest/blob/master/doc/markdown/tutorial.md
