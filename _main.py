@@ -55,6 +55,6 @@ def setup(
         remove_directory('src')
     from _include import setup_include
     setup_include(lib_name)
-    commit_in_git()
 
+    commit_in_git()
     clear_setup_scripts()
