@@ -7,6 +7,7 @@ def clear_setup_scripts():
     remove(path_to('_cmakelists.py'))
     remove(path_to('_imgui_ini.py'))
     remove(path_to('_include.py'))
+    remove(path_to('_license.py'))
     remove(path_to('_main.py'))
     remove(path_to('_readme.py'))
     remove(path_to('_src.py'))
@@ -37,6 +38,8 @@ def setup(
     tests_need_imgui = uses_dear_imgui in [Usage.TESTS_ONLY, Usage.ALWAYS]
     from _readme import setup_readme
     setup_readme(lib_name, uses_dear_imgui == Usage.ALWAYS)
+    from _license import setup_license
+    setup_license()
     from _cmakelists import setup_cmakelists
     setup_cmakelists(lib_name, cpp_version, is_header_only, tests_need_imgui)
     from _tests import setup_tests
