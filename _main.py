@@ -17,14 +17,20 @@ def commit_in_git():
     os.system('git add .')
     os.system('git commit -m "🎉 Initial commit" --amend')
 
+from enum import Enum, auto
+class Usage(Enum):
+    NEVER = auto()
+    TESTS_ONLY = auto()
+    ALWAYS = auto()
 
 def setup(
     lib_name="mylib",
     cpp_version="cxx_std_20",
     is_header_only=False,
+    uses_dear_imgui=Usage.NEVER,
 ):
     from _readme import setup_readme
-    setup_readme(lib_name)
+    setup_readme(lib_name, uses_dear_imgui==Usage.ALWAYS)
     from _cmakelists import setup_cmakelists
     setup_cmakelists(lib_name, cpp_version, is_header_only)
     from _tests import setup_tests
