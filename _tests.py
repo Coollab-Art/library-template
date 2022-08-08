@@ -1,10 +1,23 @@
-def setup_tests(lib_name):
+def setup_tests(lib_name, needs_imgui: bool):
     from _utils import make_file
     from os.path import join
-    make_file(join('tests', 'tests.cpp'), f"""#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+    make_file(join('tests', 'tests.cpp'), f"""#define {"DOCTEST_CONFIG_IMPLEMENT" if needs_imgui else "DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN"}
 #include <doctest/doctest.h>
 #include <{lib_name}/{lib_name}.hpp>
+{f'''#include <quick_imgui/quick_imgui.hpp>
 
+// Learn how to use Dear ImGui: https://coollibs.github.io/contribute/Programming/dear-imgui
+
+int main()
+{{
+    doctest::Context{{}}.run();               // Run all unit tests
+    quick_imgui::loop("{lib_name} tests", []() {{ // Open a window and run all the ImGui-related code
+        ImGui::Begin("{lib_name} tests");
+        ImGui::End();
+        ImGui::ShowDemoWindow();
+    }});
+}}
+''' if needs_imgui else ""}
 // Check out doctest's documentation: https://github.com/doctest/doctest/blob/master/doc/markdown/tutorial.md
 
 int factorial(int number)

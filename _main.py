@@ -33,17 +33,13 @@ def setup(
     is_header_only=False,
     uses_dear_imgui=Usage.NEVER,
 ):
+    tests_need_imgui = uses_dear_imgui in [Usage.TESTS_ONLY, Usage.ALWAYS]
     from _readme import setup_readme
     setup_readme(lib_name, uses_dear_imgui == Usage.ALWAYS)
     from _cmakelists import setup_cmakelists
-    setup_cmakelists(
-        lib_name,
-        cpp_version,
-        is_header_only,
-        uses_dear_imgui in [Usage.TESTS_ONLY, Usage.ALWAYS]
-    )
+    setup_cmakelists(lib_name, cpp_version, is_header_only, tests_need_imgui)
     from _tests import setup_tests
-    setup_tests(lib_name)
+    setup_tests(lib_name, tests_need_imgui)
     if not is_header_only:
         from _src import setup_src
         setup_src(lib_name)
