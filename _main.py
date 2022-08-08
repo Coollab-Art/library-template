@@ -56,5 +56,5 @@ def setup(
     from _include import setup_include
     setup_include(lib_name)
 
-    commit_in_git()
     clear_setup_scripts()
+    commit_in_git()
