@@ -5,6 +5,7 @@ def clear_setup_scripts():
     from _utils import path_to, remove
     from tooling.internal_utils import remove_directory
     remove(path_to('_cmakelists.py'))
+    remove(path_to('_imgui_ini.py'))
     remove(path_to('_include.py'))
     remove(path_to('_main.py'))
     remove(path_to('_readme.py'))
@@ -40,6 +41,9 @@ def setup(
     setup_cmakelists(lib_name, cpp_version, is_header_only, tests_need_imgui)
     from _tests import setup_tests
     setup_tests(lib_name, tests_need_imgui)
+    if (tests_need_imgui):
+        from _imgui_ini import setup_imgui_ini
+        setup_imgui_ini(lib_name)
     if not is_header_only:
         from _src import setup_src
         setup_src(lib_name)
