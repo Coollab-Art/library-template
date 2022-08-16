@@ -1,13 +1,13 @@
-def setup_continuous_integration(lib_name, need_imgui:bool):
+def setup_continuous_integration(lib_name, need_imgui: bool):
     from tooling.internal_utils import make_clean_directory
     from _utils import path_to
     from os.path import join
     make_clean_directory(path_to(join('.github', 'workflows')))
 
     from _utils import make_file
-    
-    make_file(join('.github', 'workflows',f'build_and_run_tests.yml'), 
-f"""name: Build and run tests
+
+    make_file(join('.github', 'workflows', f'build_and_run_tests.yml'),
+              f"""name: Build and run tests
 
 on: 
   push:
