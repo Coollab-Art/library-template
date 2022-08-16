@@ -55,6 +55,8 @@ def setup(
         remove_directory('src')
     from _include import setup_include
     setup_include(lib_name)
+    from _continuous_integration import setup_continuous_integration
+    setup_continuous_integration(lib_name, tests_need_imgui)
 
     clear_setup_scripts()
     commit_in_git()

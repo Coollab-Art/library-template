@@ -8,10 +8,14 @@ def setup_tests(lib_name, needs_imgui: bool):
 
 // Learn how to use Dear ImGui: https://coollibs.github.io/contribute/Programming/dear-imgui
 
-auto main() -> int
+auto main(int argc, char* argv[]) -> int
 {{
     const int exit_code = doctest::Context{{}}.run(); // Run all unit tests
-    if (exit_code == 0)                             // Only open the window if the tests passed; this makes it easier to notice when some tests fail
+    const bool should_run_imgui_tests = argc < 2 || strcmp(argv[1], "-nogpu") != 0;
+    if (
+        should_run_imgui_tests &&
+        exit_code == 0 // Only open the window if the tests passed; this makes it easier to notice when some tests fail
+    )       
     {{
         quick_imgui::loop("{lib_name} tests", []() {{ // Open a window and run all the ImGui-related code
             ImGui::Begin("{lib_name} tests");
