@@ -5,9 +5,8 @@ def setup_continuous_integration(lib_name, need_imgui: bool):
     make_clean_directory(path_to(join('.github', 'workflows')))
 
     from _utils import make_file
-
-    make_file(join('.github', 'workflows', f'build_and_run_tests.yml'),
-              f"""name: Build and run tests
+    make_file(join('.github', 'workflows', 'build_and_run_tests.yml'),
+              f"""name: Build and Run tests
 
 on: 
   push:
