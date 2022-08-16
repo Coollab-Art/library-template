@@ -1,4 +1,4 @@
-def setup_continuous_integration(lib_name, need_imgui: bool):
+def setup_continuous_integration(lib_name, needs_imgui: bool):
     from tooling.internal_utils import make_clean_directory
     from _utils import path_to
     from os.path import join
@@ -17,7 +17,7 @@ on:
 
 
 env:
-  TARGET: {lib_name}-tests # Should be the name of the target you created in your CMakeLists.txt and want to build and run
+  TARGET: {lib_name}-tests
 
 jobs:
 #-----------------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}\\build --config Debug --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}\\build\\Debug\\${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}
+      run: ${{{{github.workspace}}}}\\build\\Debug\\${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}
 
 #-----------------------------------------------------------------------------------------------
   Windows_MSVC_Release:
@@ -54,7 +54,8 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}\\build --config Release --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}\\build\\Release\\${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}
+      run: ${{{{github.workspace}}}}\\build\\Release\\${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}
+
 #-----------------------------------------------------------------------------------------------
   Windows_Clang_Debug:
     name: Windows Clang Debug
@@ -71,7 +72,7 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}\\build --config Debug --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}\\build\\Debug\\${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}
+      run: ${{{{github.workspace}}}}\\build\\Debug\\${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}
 
 #-----------------------------------------------------------------------------------------------
   Windows_Clang_Release:
@@ -89,22 +90,23 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}\\build --config Release --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}\\build\\Release\\${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}
+      run: ${{{{github.workspace}}}}\\build\\Release\\${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}
+
 #-----------------------------------------------------------------------------------------------
-  Linux_GCC_Debug: 
+  Linux_GCC_Debug:
     name: Linux GCC Debug
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
-    
-    {f'''- name: Update package
+    {f'''
+    - name: Update package
       run: sudo apt-get update -y
 
     - name: Install glfw dependencies
-      run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev ''' if need_imgui else ''''''}
-
+      run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev''' if needs_imgui else ""}
+    
     - name: Configure CMake
       run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=gcc-11 -D CMAKE_CXX_COMPILER=g++-11
 
@@ -112,23 +114,23 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}/build --config Debug --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}
+      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}
     
 #-----------------------------------------------------------------------------------------------
-  Linux_GCC_Release: 
+  Linux_GCC_Release:
     name: Linux GCC Release
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
-
-    {f'''- name: Update package
+    {f'''
+    - name: Update package
       run: sudo apt-get update -y
     
     - name: Install glfw dependencies
-      run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev ''' if need_imgui else ''''''}
-
+      run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev''' if needs_imgui else ""}
+    
     - name: Configure CMake
       run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=gcc-11 -D CMAKE_CXX_COMPILER=g++-11
 
@@ -136,7 +138,7 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}/build --config Release --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}
+      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}
 
 #-----------------------------------------------------------------------------------------------
   Linux_Clang_Debug:
@@ -146,13 +148,13 @@ jobs:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
-
-    {f'''- name: Update package
+    {f'''
+    - name: Update package
       run: sudo apt-get update -y
     
     - name: Install glfw dependencies
-      run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev ''' if need_imgui else ''''''}
-
+      run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev''' if needs_imgui else ""}
+    
     - name: Configure CMake
       run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
 
@@ -160,23 +162,23 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}/build --config Debug --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}
+      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}
 
 #-----------------------------------------------------------------------------------------------
-  Linux_Clang_Release: 
+  Linux_Clang_Release:
     name: Linux Clang Release
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
-
-    {f'''- name: Update package
+    {f'''
+    - name: Update package
       run: sudo apt-get update -y
     
     - name: Install glfw dependencies
-      run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev ''' if need_imgui else ''''''}
-
+      run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev''' if needs_imgui else ""}
+    
     - name: Configure CMake
       run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
 
@@ -184,10 +186,10 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}/build --config Release --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}
+      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}{f'''
 
 #-----------------------------------------------------------------------------------------------
-  {f'''MacOS_GCC_Debug: 
+  MacOS_GCC_Debug: 
     name: MacOS GCC Debug
     runs-on: macos-latest
     steps:
@@ -202,10 +204,10 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}/build --config Debug --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}''' if not need_imgui else ''} 
+      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}''' if not needs_imgui else ''}{f''' 
     
 #-----------------------------------------------------------------------------------------------
-  {f'''MacOS_GCC_Release: 
+  MacOS_GCC_Release: 
     name: MacOS GCC Release
     runs-on: macos-latest
     steps:
@@ -220,7 +222,7 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}/build --config Release --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}''' if not need_imgui else ''}
+      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}''' if not needs_imgui else ''}
 
 #-----------------------------------------------------------------------------------------------
   MacOS_Clang_Debug:
@@ -238,7 +240,7 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}/build --config Debug --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}
+      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}
 
 #-----------------------------------------------------------------------------------------------
   MacOS_Clang_Release: 
@@ -256,5 +258,5 @@ jobs:
       run: cmake --build ${{{{github.workspace}}}}/build --config Release --target ${{{{env.TARGET}}}}
 
     - name: Run
-      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}} {f' -nogpu ' if need_imgui else ''}                 
+      run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}                 
 """)
