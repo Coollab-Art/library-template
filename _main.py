@@ -5,6 +5,7 @@ def clear_setup_scripts():
     from _utils import path_to, remove
     from tooling.internal_utils import remove_directory
     remove(path_to('_cmakelists.py'))
+    remove(path_to('_continuous_integration.py'))
     remove(path_to('_imgui_ini.py'))
     remove(path_to('_include.py'))
     remove(path_to('_license.py'))
@@ -55,6 +56,8 @@ def setup(
         remove_directory('src')
     from _include import setup_include
     setup_include(lib_name)
+    from _continuous_integration import setup_continuous_integration
+    setup_continuous_integration(lib_name, tests_need_imgui)
 
     clear_setup_scripts()
     commit_in_git()
