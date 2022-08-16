@@ -5,6 +5,7 @@ def clear_setup_scripts():
     from _utils import path_to, remove
     from tooling.internal_utils import remove_directory
     remove(path_to('_cmakelists.py'))
+    remove(path_to('_continuous_integration.py'))
     remove(path_to('_imgui_ini.py'))
     remove(path_to('_include.py'))
     remove(path_to('_license.py'))
