@@ -23,7 +23,7 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   Windows_MSVC_Debug:
     name: Windows MSVC Debug
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
     - uses: actions/checkout@v3
       with:
@@ -41,7 +41,7 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   Windows_MSVC_Release:
     name: Windows MSVC Release
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
     - uses: actions/checkout@v3
       with:
@@ -59,7 +59,7 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   Windows_Clang_Debug:
     name: Windows Clang Debug
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
     - uses: actions/checkout@v3
       with:
@@ -77,7 +77,7 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   Windows_Clang_Release:
     name: Windows Clang Release
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
     - uses: actions/checkout@v3
       with:
@@ -191,7 +191,7 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   MacOS_GCC_Debug: 
     name: MacOS GCC Debug
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v3
       with:
@@ -209,7 +209,7 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   MacOS_GCC_Release: 
     name: MacOS GCC Release
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v3
       with:
@@ -227,14 +227,14 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   MacOS_Clang_Debug:
     name: MacOS Clang Debug 
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=/usr/local/opt/llvm/bin/clang -D CMAKE_CXX_COMPILER=/usr/local/opt/llvm/bin/clang++
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Debug --target ${{{{env.TARGET}}}}
@@ -245,14 +245,14 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   MacOS_Clang_Release: 
     name: MacOS Clang Release
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=/usr/local/opt/llvm/bin/clang -D CMAKE_CXX_COMPILER=/usr/local/opt/llvm/bin/clang++
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Release --target ${{{{env.TARGET}}}}
