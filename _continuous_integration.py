@@ -30,7 +30,7 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake .\\tests -B ${{{{github.workspace}}}}\\build -D CMAKE_C_COMPILER=cl -D CMAKE_CXX_COMPILER=cl 
+      run: cmake .\\tests -B ${{{{github.workspace}}}}\\build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_C_COMPILER=cl -D CMAKE_CXX_COMPILER=cl 
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}\\build --config Debug --target ${{{{env.TARGET}}}}
@@ -48,7 +48,7 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake .\\tests -B ${{{{github.workspace}}}}\\build -D CMAKE_C_COMPILER=cl -D CMAKE_CXX_COMPILER=cl
+      run: cmake .\\tests -B ${{{{github.workspace}}}}\\build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_C_COMPILER=cl -D CMAKE_CXX_COMPILER=cl
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}\\build --config Release --target ${{{{env.TARGET}}}}
@@ -66,7 +66,7 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake .\\tests -B ${{{{github.workspace}}}}\\build -T ClangCL
+      run: cmake .\\tests -B ${{{{github.workspace}}}}\\build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -T ClangCL
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}\\build --config Debug --target ${{{{env.TARGET}}}}
@@ -84,7 +84,7 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake .\\tests -B ${{{{github.workspace}}}}\\build -T ClangCL
+      run: cmake .\\tests -B ${{{{github.workspace}}}}\\build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -T ClangCL
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}\\build --config Release --target ${{{{env.TARGET}}}}
@@ -108,7 +108,7 @@ jobs:
       run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev''' if needs_imgui else ""}
     
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=gcc-11 -D CMAKE_CXX_COMPILER=g++-11
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=gcc-11 -D CMAKE_CXX_COMPILER=g++-11
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Debug --target ${{{{env.TARGET}}}}
@@ -132,7 +132,7 @@ jobs:
       run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev''' if needs_imgui else ""}
     
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=gcc-11 -D CMAKE_CXX_COMPILER=g++-11
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=gcc-11 -D CMAKE_CXX_COMPILER=g++-11
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Release --target ${{{{env.TARGET}}}}
@@ -156,7 +156,7 @@ jobs:
       run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev''' if needs_imgui else ""}
     
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Debug --target ${{{{env.TARGET}}}}
@@ -180,7 +180,7 @@ jobs:
       run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev''' if needs_imgui else ""}
     
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Release --target ${{{{env.TARGET}}}}
@@ -198,7 +198,7 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=gcc-11 -D CMAKE_CXX_COMPILER=g++-11
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=gcc-11 -D CMAKE_CXX_COMPILER=g++-11
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Debug --target ${{{{env.TARGET}}}}
@@ -216,7 +216,7 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=gcc-11 -D CMAKE_CXX_COMPILER=g++-11
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=gcc-11 -D CMAKE_CXX_COMPILER=g++-11
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Release --target ${{{{env.TARGET}}}}
@@ -234,7 +234,7 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=$(brew --prefix llvm@14)/bin/clang -D CMAKE_CXX_COMPILER=$(brew --prefix llvm@14)/bin/clang++
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=$(brew --prefix llvm@14)/bin/clang -D CMAKE_CXX_COMPILER=$(brew --prefix llvm@14)/bin/clang++
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Debug --target ${{{{env.TARGET}}}}
@@ -252,7 +252,7 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=$(brew --prefix llvm@14)/bin/clang -D CMAKE_CXX_COMPILER=$(brew --prefix llvm@14)/bin/clang++
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=$(brew --prefix llvm@14)/bin/clang -D CMAKE_CXX_COMPILER=$(brew --prefix llvm@14)/bin/clang++
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Release --target ${{{{env.TARGET}}}}

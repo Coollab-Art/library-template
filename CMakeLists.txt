@@ -10,14 +10,19 @@ target_sources(mylib PRIVATE
     src/mylib.cpp
 )
 
-# ---Setup warnings---
-if (MYLIB_ENABLE_WARNINGS_AS_ERRORS)
-    message("-- [mylib] Enabling warnings as errors for mylib")
-    if(MSVC)
-        target_compile_options(mylib PRIVATE /WX /W4)
-    else()
-        target_compile_options(mylib PRIVATE -Werror -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
-    endif()
+# ---Set warning level---
+if(MSVC)
+    target_compile_options(mylib PRIVATE /W4)
 else()
-    message("-- [mylib] Not using warnings as errors for mylib")
+    target_compile_options(mylib PRIVATE -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
+endif()
+
+# ---Maybe enable warnings as errors---
+set(WARNINGS_AS_ERRORS_FOR_MYLIB OFF CACHE BOOL "ON iff you want to treat warnings as errors")
+if(WARNINGS_AS_ERRORS_FOR_MYLIB)
+    if(MSVC)
+        target_compile_options(mylib PRIVATE /WX)
+    else()
+        target_compile_options(mylib PRIVATE -Werror)
+    endif()
 endif()

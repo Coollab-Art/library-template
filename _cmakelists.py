@@ -16,11 +16,9 @@ project({lib_name}-tests)
 add_executable(${{PROJECT_NAME}} tests.cpp)
 target_compile_features(${{PROJECT_NAME}} PRIVATE {cpp_version})
 
-# ---Setup warnings---
-{enable_warnings("${PROJECT_NAME}", "")}
+{setup_warnings(lib_name, "${PROJECT_NAME}")}
 
 # ---Include our library---
-set({lib_name.upper()}_ENABLE_WARNINGS_AS_ERRORS ON)
 add_subdirectory(.. ${{CMAKE_CURRENT_SOURCE_DIR}}/build/{lib_name})
 target_link_libraries(${{PROJECT_NAME}} PRIVATE {lib_name}::{lib_name})
 
@@ -65,12 +63,23 @@ endif()
 """)
 
 
-def enable_warnings(lib_name, before_each_line):
-    return f"""{before_each_line}if(MSVC)
-{before_each_line}    target_compile_options({lib_name} PRIVATE /WX /W4)
-{before_each_line}else()
-{before_each_line}    target_compile_options({lib_name} PRIVATE -Werror -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
-{before_each_line}endif()"""
+def setup_warnings(lib_name, target_name):
+    return f"""# ---Set warning level---
+if(MSVC)
+    target_compile_options({target_name} PRIVATE /W4)
+else()
+    target_compile_options({target_name} PRIVATE -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
+endif()
+
+# ---Maybe enable warnings as errors---
+set(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()} OFF CACHE BOOL "ON iff you want to treat warnings as errors")
+if(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()})
+    if(MSVC)
+        target_compile_options({target_name} PRIVATE /WX)
+    else()
+        target_compile_options({target_name} PRIVATE -Werror)
+    endif()
+endif()"""
 
 
 def cmakelists_body(lib_name, cpp_version, is_header_only):
@@ -94,11 +103,5 @@ target_sources({lib_name} PRIVATE
     src/{lib_name}.cpp
 )
 
-# ---Setup warnings---
-if ({lib_name.upper()}_ENABLE_WARNINGS_AS_ERRORS)
-    message("-- [{lib_name}] Enabling warnings as errors for {lib_name}")
-{enable_warnings(lib_name, "    ")}
-else()
-    message("-- [{lib_name}] Not using warnings as errors for {lib_name}")
-endif()
+{setup_warnings(lib_name, lib_name)}
 """
