@@ -6,9 +6,8 @@ target_compile_features(mylib PUBLIC cxx_std_20)
 
 # ---Add source files---
 target_include_directories(mylib PUBLIC include)
-target_sources(mylib PRIVATE
-    src/mylib.cpp
-)
+file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
+target_sources(mylib PRIVATE ${SRC_FILES})
 
 # ---Set warning level---
 if(MSVC)

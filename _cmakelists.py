@@ -99,9 +99,8 @@ target_compile_features({lib_name} PUBLIC {cpp_version})
 
 # ---Add source files---
 target_include_directories({lib_name} PUBLIC include)
-target_sources({lib_name} PRIVATE
-    src/{lib_name}.cpp
-)
+file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
+target_sources({lib_name} PRIVATE ${{SRC_FILES}})
 
 {setup_warnings(lib_name, lib_name)}
 """
