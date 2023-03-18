@@ -6,7 +6,8 @@ def setup_cmakelists(lib_name, cpp_version, is_header_only, tests_need_imgui: bo
     from _utils import make_file
     from os.path import join
 
-    make_file('CMakeLists.txt', cmake_minimum_required("3.8") + "\n" +
+    make_file('CMakeLists.txt', cmake_minimum_required("3.8") + "\n\n" +
+              f'set(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()} OFF CACHE BOOL "ON iff you want to treat warnings as errors")\n' +
               cmakelists_body(lib_name, cpp_version, is_header_only))
 
     make_file(join('tests', 'CMakeLists.txt'), f"""{cmake_minimum_required("3.11")}
@@ -72,7 +73,6 @@ else()
 endif()
 
 # ---Maybe enable warnings as errors---
-set(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()} OFF CACHE BOOL "ON iff you want to treat warnings as errors")
 if(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()})
     if(MSVC)
         target_compile_options({target_name} PRIVATE /WX)
@@ -88,7 +88,11 @@ def cmakelists_body(lib_name, cpp_version, is_header_only):
 add_library({lib_name} INTERFACE)
 add_library({lib_name}::{lib_name} ALIAS {lib_name})
 target_compile_features({lib_name} INTERFACE {cpp_version})
-target_include_directories({lib_name} INTERFACE include)
+if(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()})
+    target_include_directories({lib_name} INTERFACE include)
+else()
+    target_include_directories({lib_name} SYSTEM INTERFACE include)
+endif()
 """
 
     else:
@@ -98,9 +102,13 @@ add_library({lib_name}::{lib_name} ALIAS {lib_name})
 target_compile_features({lib_name} PUBLIC {cpp_version})
 
 # ---Add source files---
-target_include_directories({lib_name} PUBLIC include)
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
 target_sources({lib_name} PRIVATE ${{SRC_FILES}})
+if(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()})
+    target_include_directories({lib_name} PUBLIC include)
+else()
+    target_include_directories({lib_name} SYSTEM PUBLIC include)
+endif()
 
 {setup_warnings(lib_name, lib_name)}
 """
