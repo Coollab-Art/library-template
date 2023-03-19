@@ -102,13 +102,13 @@ add_library({lib_name}::{lib_name} ALIAS {lib_name})
 target_compile_features({lib_name} PUBLIC {cpp_version})
 
 # ---Add source files---
-file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
-target_sources({lib_name} PRIVATE ${{SRC_FILES}})
 if(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()})
     target_include_directories({lib_name} PUBLIC include)
 else()
     target_include_directories({lib_name} SYSTEM PUBLIC include)
 endif()
+file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
+target_sources({lib_name} PRIVATE ${{SRC_FILES}})
 
 {setup_warnings(lib_name, lib_name)}
 """

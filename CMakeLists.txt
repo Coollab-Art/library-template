@@ -7,13 +7,13 @@ add_library(mylib::mylib ALIAS mylib)
 target_compile_features(mylib PUBLIC cxx_std_20)
 
 # ---Add source files---
-file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
-target_sources(mylib PRIVATE ${SRC_FILES})
 if(WARNINGS_AS_ERRORS_FOR_MYLIB)
     target_include_directories(mylib PUBLIC include)
 else()
     target_include_directories(mylib SYSTEM PUBLIC include)
 endif()
+file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
+target_sources(mylib PRIVATE ${SRC_FILES})
 
 # ---Set warning level---
 if(MSVC)
