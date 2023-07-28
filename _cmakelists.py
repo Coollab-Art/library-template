@@ -69,7 +69,7 @@ def setup_warnings(lib_name, target_name):
 if(MSVC)
     target_compile_options({target_name} PRIVATE /W4)
 else()
-    target_compile_options({target_name} PRIVATE -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
+    target_compile_options({target_name} PRIVATE -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion -Wimplicit-fallthrough)
 endif()
 
 # ---Maybe enable warnings as errors---
