@@ -2,11 +2,14 @@ def setup_continuous_integration(lib_name, needs_imgui: bool):
     from tooling.internal_utils import make_clean_directory
     from _utils import path_to
     from os.path import join
-    make_clean_directory(path_to(join('.github', 'workflows')))
+
+    make_clean_directory(path_to(join(".github", "workflows")))
 
     from _utils import make_file
-    make_file(join('.github', 'workflows', 'build_and_run_tests.yml'),
-              f"""name: Build and Run tests
+
+    make_file(
+        join(".github", "workflows", "build_and_run_tests.yml"),
+        f"""name: Build and Run tests
 
 on: 
   push:
@@ -234,7 +237,7 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=$(brew --prefix llvm)/bin/clang -D CMAKE_CXX_COMPILER=$(brew --prefix llvm)/bin/clang++
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=$(brew --prefix llvm@15)/bin/clang -D CMAKE_CXX_COMPILER=$(brew --prefix llvm@15)/bin/clang++
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Debug --target ${{{{env.TARGET}}}}
@@ -252,11 +255,12 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=$(brew --prefix llvm)/bin/clang -D CMAKE_CXX_COMPILER=$(brew --prefix llvm)/bin/clang++
+      run: cmake ./tests -B ${{{{github.workspace}}}}/build -DWARNINGS_AS_ERRORS_FOR_{lib_name.upper()}=ON -D CMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=$(brew --prefix llvm@15)/bin/clang -D CMAKE_CXX_COMPILER=$(brew --prefix llvm@15)/bin/clang++
 
     - name: Build
       run: cmake --build ${{{{github.workspace}}}}/build --config Release --target ${{{{env.TARGET}}}}
 
     - name: Run
       run: ${{{{github.workspace}}}}/build/${{{{env.TARGET}}}}{f' -nogpu' if needs_imgui else ''}                 
-""")
+""",
+    )
