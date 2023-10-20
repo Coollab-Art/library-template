@@ -12,6 +12,7 @@ if(WARNINGS_AS_ERRORS_FOR_MYLIB)
 else()
     target_include_directories(mylib SYSTEM PUBLIC include)
 endif()
+
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
 target_sources(mylib PRIVATE ${SRC_FILES})
 

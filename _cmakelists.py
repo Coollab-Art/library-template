@@ -6,11 +6,17 @@ def setup_cmakelists(lib_name, cpp_version, is_header_only, tests_need_imgui: bo
     from _utils import make_file
     from os.path import join
 
-    make_file('CMakeLists.txt', cmake_minimum_required("3.8") + "\n\n" +
-              f'set(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()} OFF CACHE BOOL "ON iff you want to treat warnings as errors")\n' +
-              cmakelists_body(lib_name, cpp_version, is_header_only))
+    make_file(
+        "CMakeLists.txt",
+        cmake_minimum_required("3.8")
+        + "\n\n"
+        + f'set(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()} OFF CACHE BOOL "ON iff you want to treat warnings as errors")\n'
+        + cmakelists_body(lib_name, cpp_version, is_header_only),
+    )
 
-    make_file(join('tests', 'CMakeLists.txt'), f"""{cmake_minimum_required("3.11")}
+    make_file(
+        join("tests", "CMakeLists.txt"),
+        f"""{cmake_minimum_required("3.11")}
 project({lib_name}-tests)
 
 # ---Create executable---
@@ -46,12 +52,15 @@ target_link_libraries(${{PROJECT_NAME}} PRIVATE quick_imgui::quick_imgui)''' if 
 
 # ---Ignore .vscode/settings.json in Git---
 find_package(Git QUIET)
+
 if(GIT_FOUND)
     get_filename_component(PARENT_DIR ${{CMAKE_CURRENT_SOURCE_DIR}} DIRECTORY)
+
     if (EXISTS "${{PARENT_DIR}}/.git")
         execute_process(COMMAND ${{GIT_EXECUTABLE}} update-index --assume-unchanged .vscode/settings.json
             WORKING_DIRECTORY ${{PARENT_DIR}}
             RESULT_VARIABLE ERRORS)
+            
         if(NOT ERRORS EQUAL "0")
             message("Git assume-unchanged failed: ${{ERRORS}}")
         endif()
@@ -61,7 +70,8 @@ if(GIT_FOUND)
 else()
     message("Git executable not found.")
 endif()
-""")
+""",
+    )
 
 
 def setup_warnings(lib_name, target_name):
@@ -107,6 +117,7 @@ if(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()})
 else()
     target_include_directories({lib_name} SYSTEM PUBLIC include)
 endif()
+
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
 target_sources({lib_name} PRIVATE ${{SRC_FILES}})
 
