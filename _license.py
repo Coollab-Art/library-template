@@ -2,7 +2,9 @@ def setup_license():
     from _utils import path_to, make_file
     from datetime import date
 
-    make_file(path_to('LICENSE'), f"""Boost Software License - Version 1.0 - August 17th, 2003
+    make_file(
+        path_to("LICENSE"),
+        f"""Boost Software License - Version 1.0 - August 17th, 2003
 
 Copyright (c) {date.today().year} CoolLibs
 
@@ -27,4 +29,5 @@ SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
 FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
-""")
+""",
+    )

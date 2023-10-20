@@ -1,7 +1,10 @@
 def setup_tests(lib_name, needs_imgui: bool):
     from _utils import make_file
     from os.path import join
-    make_file(join('tests', 'tests.cpp'), f"""#define {"DOCTEST_CONFIG_IMPLEMENT" if needs_imgui else "DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN"}
+
+    make_file(
+        join("tests", "tests.cpp"),
+        f"""#define {"DOCTEST_CONFIG_IMPLEMENT" if needs_imgui else "DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN"}
 #include <doctest/doctest.h>
 #include <{lib_name}/{lib_name}.hpp>
 {f'''#include <quick_imgui/quick_imgui.hpp>
@@ -40,4 +43,5 @@ TEST_CASE("testing the factorial function")
     CHECK(factorial(3) == 6);
     CHECK(factorial(10) == 3628800);
 }}
-""")
+""",
+    )

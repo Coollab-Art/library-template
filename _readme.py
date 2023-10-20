@@ -1,6 +1,9 @@
 def setup_readme(lib_name, needs_imgui):
     from _utils import make_file
-    make_file('README.md', f"""# {lib_name}
+
+    make_file(
+        "README.md",
+        f"""# {lib_name}
 
 ## Including
 
@@ -20,4 +23,5 @@ Then include it as:
 
 Simply use "tests/CMakeLists.txt" to generate a project, then run it.<br/>
 If you are using VSCode and the CMake extension, this project already contains a *.vscode/settings.json* that will use the right CMakeLists.txt automatically.
-""")
+""",
+    )
