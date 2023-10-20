@@ -19,7 +19,7 @@ target_sources(mylib PRIVATE ${SRC_FILES})
 if(MSVC)
     target_compile_options(mylib PRIVATE /W4)
 else()
-    target_compile_options(mylib PRIVATE -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
+    target_compile_options(mylib PRIVATE -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion -Wimplicit-fallthrough)
 endif()
 
 # ---Maybe enable warnings as errors---
