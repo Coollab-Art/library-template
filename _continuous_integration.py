@@ -82,7 +82,11 @@ jobs:
         uses: hendrikmuhs/ccache-action@main
         with:
           key: ${{{{matrix.config.name}}}}-${{{{matrix.build_type}}}}
-
+{"""
+      - name: Install GLFW dependencies for Linux
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-common-dev
+""" if needs_imgui else ""}
       - name: Build
         uses: lukka/run-cmake@v3
         with:
@@ -94,6 +98,6 @@ jobs:
           buildDirectory: ${{{{github.workspace}}}}/build
 
       - name: Run
-        run: ${{{{github.workspace}}}}/build/${{{{env.cmake_target}}}}
+        run: ${{{{github.workspace}}}}/build/${{{{env.cmake_target}}}} -nogpu
 """,
     )
