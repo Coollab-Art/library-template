@@ -60,11 +60,11 @@ jobs:
               os: macos-latest,
               cmake_configure_args: -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++,
             }}
-          - {{
-              name: MacOS GCC,
-              os: macos-latest,
-              cmake_configure_args: -D CMAKE_C_COMPILER=gcc-13 -D CMAKE_CXX_COMPILER=g++-13,
-            }}
+#           - {{
+#               name: MacOS GCC,
+#               os: macos-latest,
+#               cmake_configure_args: -D CMAKE_C_COMPILER=gcc-13 -D CMAKE_CXX_COMPILER=g++-13,
+#             }}
         build_type:
           - Debug
           - Release
