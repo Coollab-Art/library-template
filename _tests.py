@@ -13,8 +13,9 @@ def setup_tests(lib_name, needs_imgui: bool):
 
 auto main(int argc, char* argv[]) -> int
 {{
-    const int exit_code = doctest::Context{{}}.run(); // Run all unit tests
-    const bool should_run_imgui_tests = argc < 2 || strcmp(argv[1], "-nogpu") != 0;
+    int const exit_code = doctest::Context{{}}.run(); // Run all unit tests
+
+    bool const should_run_imgui_tests = argc < 2 || strcmp(argv[1], "-nogpu") != 0; // NOLINT(*-pointer-arithmetic)
     if (
         should_run_imgui_tests
         && exit_code == 0 // Only open the window if the tests passed; this makes it easier to notice when some tests fail
