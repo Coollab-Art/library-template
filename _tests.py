@@ -15,19 +15,21 @@ auto main(int argc, char* argv[]) -> int
 {{
     int const exit_code = doctest::Context{{}}.run(); // Run all unit tests
 
-    bool const should_run_imgui_tests = argc < 2 || strcmp(argv[1], "-nogpu") != 0; // NOLINT(*-pointer-arithmetic)
-    if (
-        should_run_imgui_tests
-        && exit_code == 0 // Only open the window if the tests passed; this makes it easier to notice when some tests fail
-    )       
+    bool const should_run_imgui_tests = argc < 2 || strcmp(argv[1], "-nogpu") != 0; // NOLINT(*pointer-arithmetic)
+    if (!should_run_imgui_tests
+        || exit_code != 0 // Only open the window if the tests passed; this makes it easier to notice when some tests fail
+    )
     {{
-        quick_imgui::loop("{lib_name} tests", []() {{ // Open a window and run all the ImGui-related code
-            ImGui::Begin("{lib_name} tests");
-            ImGui::End();
-            ImGui::ShowDemoWindow();
-        }});
+        return exit_code;
     }}
-    return exit_code;
+ 
+    quick_imgui::loop("{lib_name} tests", [&]() {{ // Open a window and run all the ImGui-related code
+        ImGui::Begin("{lib_name} tests");
+        ImGui::End();
+        ImGui::ShowDemoWindow();
+    }});
+
+    return 0;
 }}
 ''' if needs_imgui else ""}
 // Check out doctest's documentation: https://github.com/doctest/doctest/blob/master/doc/markdown/tutorial.md
