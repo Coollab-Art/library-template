@@ -16,7 +16,7 @@ target_link_libraries(${{PROJECT_NAME}} PRIVATE {lib_name}::{lib_name})
 
 Then include it as:
 ```cpp
-#include <{lib_name}/{lib_name}.hpp>
+#include "{lib_name}/{lib_name}.hpp"
 ```
 
 ## Running the tests
