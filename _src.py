@@ -9,7 +9,7 @@ def setup_src(lib_name):
 
     make_file(
         join("src", f"{lib_name}.cpp"),
-        f"""#include <{lib_name}/{lib_name}.hpp>
+        f"""#include "{lib_name}/{lib_name}.hpp"
 
 namespace {lib_name} {{
 
