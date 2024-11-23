@@ -47,7 +47,7 @@ FetchContent_Declare(
     GIT_TAG 96f9504c4f2fcc5dee07b4dcec3e44c98f45b602
 )
 FetchContent_MakeAvailable(quick_imgui)
-target_include_directories({lib_name} SYSTEM PRIVATE ${{quick_imgui_SOURCE_DIR}}/lib) # Give our library access to Dear ImGui
+target_include_directories({lib_name} SYSTEM PRIVATE ${{quick_imgui_SOURCE_DIR}}/lib ${{quick_imgui_SOURCE_DIR}}/lib/imgui) # Give our library access to Dear ImGui
 target_link_libraries(${{PROJECT_NAME}} PRIVATE quick_imgui::quick_imgui)''' if tests_need_imgui else ""}
 
 # ---Ignore .vscode/settings.json in Git---
