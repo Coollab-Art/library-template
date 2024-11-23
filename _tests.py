@@ -5,9 +5,9 @@ def setup_tests(lib_name, needs_imgui: bool):
     make_file(
         join("tests", "tests.cpp"),
         f"""#define {"DOCTEST_CONFIG_IMPLEMENT" if needs_imgui else "DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN"}
-#include <doctest/doctest.h>
-#include <{lib_name}/{lib_name}.hpp>
-{f'''#include <quick_imgui/quick_imgui.hpp>
+#include "doctest/doctest.h"
+#include "{lib_name}/{lib_name}.hpp"
+{f'''#include "quick_imgui/quick_imgui.hpp"
 
 // Learn how to use Dear ImGui: https://coollibs.github.io/contribute/Programming/dear-imgui
 
