@@ -19,13 +19,6 @@ def clear_setup_scripts():
     remove_directory(path_to("__pycache__"))
 
 
-def commit_in_git():
-    import os
-
-    os.system("git add .")
-    os.system('git commit -m "🎉 Initial commit" --amend')
-
-
 class Usage(Enum):
     NEVER = auto()
     TESTS_ONLY = auto()
@@ -71,4 +64,3 @@ def setup(
     setup_continuous_integration(lib_name, tests_need_imgui)
 
     clear_setup_scripts()
-    commit_in_git()
