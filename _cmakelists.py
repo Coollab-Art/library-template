@@ -8,7 +8,7 @@ def setup_cmakelists(lib_name, cpp_version, is_header_only, tests_need_imgui: bo
 
     make_file(
         "CMakeLists.txt",
-        cmake_minimum_required("3.8")
+        cmake_minimum_required("3.20")
         + "\n\n"
         + f'set(WARNINGS_AS_ERRORS_FOR_{lib_name.upper()} OFF CACHE BOOL "ON iff you want to treat warnings as errors")\n'
         + cmakelists_body(lib_name, cpp_version, is_header_only),
@@ -16,7 +16,7 @@ def setup_cmakelists(lib_name, cpp_version, is_header_only, tests_need_imgui: bo
 
     make_file(
         join("tests", "CMakeLists.txt"),
-        f"""{cmake_minimum_required("3.11")}
+        f"""{cmake_minimum_required("3.20")}
 project({lib_name}-tests)
 
 # ---Create executable---
