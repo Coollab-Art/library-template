@@ -6,7 +6,7 @@ def setup_license():
         path_to("LICENSE"),
         f"""Boost Software License - Version 1.0 - August 17th, 2003
 
-Copyright (c) {date.today().year} CoolLibs
+Copyright (c) {date.today().year} Coollab-Art
 
 Permission is hereby granted, free of charge, to any person or organization
 obtaining a copy of the software and accompanying documentation covered by

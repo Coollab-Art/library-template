@@ -9,8 +9,6 @@ def setup_tests(lib_name, needs_imgui: bool):
 #include "{lib_name}/{lib_name}.hpp"
 {f'''#include "quick_imgui/quick_imgui.hpp"
 
-// Learn how to use Dear ImGui: https://coollibs.github.io/contribute/Programming/dear-imgui
-
 auto main(int argc, char* argv[]) -> int
 {{
     int const exit_code = doctest::Context{{}}.run(); // Run all unit tests
