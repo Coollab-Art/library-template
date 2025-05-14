@@ -16,7 +16,7 @@ def setup_cmakelists(lib_name, cpp_version, is_header_only, tests_need_imgui: bo
 
     make_file(
         join("tests", "CMakeLists.txt"),
-        f"""{cmake_minimum_required("3.20")}
+        f"""{cmake_minimum_required("3.25")}
 project({lib_name}-tests)
 
 # ---Create executable---
@@ -33,6 +33,7 @@ target_link_libraries(${{PROJECT_NAME}} PRIVATE {lib_name}::{lib_name})
 include(FetchContent)
 FetchContent_Declare(
     doctest
+    SYSTEM
     GIT_REPOSITORY https://github.com/doctest/doctest
     GIT_TAG 1da23a3e8119ec5cce4f9388e91b065e20bf06f5
 )

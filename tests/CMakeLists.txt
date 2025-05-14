@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.25)
 project(mylib-tests)
 
 # ---Create executable---
@@ -29,6 +29,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE mylib::mylib)
 include(FetchContent)
 FetchContent_Declare(
     doctest
+    SYSTEM
     GIT_REPOSITORY https://github.com/doctest/doctest
     GIT_TAG 1da23a3e8119ec5cce4f9388e91b065e20bf06f5
 )
@@ -41,11 +42,11 @@ find_package(Git QUIET)
 if(GIT_FOUND)
     get_filename_component(PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
-    if(EXISTS "${PARENT_DIR}/.git")
+    if (EXISTS "${PARENT_DIR}/.git")
         execute_process(COMMAND ${GIT_EXECUTABLE} update-index --assume-unchanged .vscode/settings.json
             WORKING_DIRECTORY ${PARENT_DIR}
             RESULT_VARIABLE ERRORS)
-
+            
         if(NOT ERRORS EQUAL "0")
             message("Git assume-unchanged failed: ${ERRORS}")
         endif()
